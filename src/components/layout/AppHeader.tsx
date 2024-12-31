@@ -15,7 +15,7 @@ export const SearchBar = () => {
   const [location, setLocation] = React.useState('Calgary, AB');
 
   const handleSearch = () => {
-    console.log('Searching for:', searchTerm);
+    console.log('Searching for:', searchTerm, 'in', location);
   };
 
   return (
@@ -23,10 +23,10 @@ export const SearchBar = () => {
       <TextField
         variant="outlined"
         size="small"
-        placeholder="Search for Job Titles, Companies, or Keywords"
+        placeholder="Search..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        sx={{ minWidth: '400px' }}
+        sx={{ minWidth: '300px' }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
