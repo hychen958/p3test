@@ -11,8 +11,6 @@ import { Home } from './pages/Home';
 import { Discussion } from './pages/Discussion';
 import { QA } from './pages/Q&A';
 import { Settings } from './pages/Settings';
-import { SearchBar } from './components/layout/AppHeader'; // 確保路徑正確
-
 
 const ErrorPage = () => <div>Error Page</div>;
 
@@ -38,7 +36,6 @@ export const RootRouter = () => {
           <Link to="/q&a">Q&A</Link>
           <Link to="/settings">Settings</Link>
         </Flex>
-        <SearchBar /> {/* 加入搜尋框 */}
         <UserButton />
       </AppHeader>
       <Divider />
