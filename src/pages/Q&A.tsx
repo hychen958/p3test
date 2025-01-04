@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Typography, TextField, Button, Chip, Select, MenuItem, FormControl, Stack } from '@mui/material';
+import { Card, Typography, TextField, Button, Chip, Select, MenuItem, FormControl, Stack, IconButton } from '@mui/material';
 import { Page } from '../components/layout/Page';
 
 type Comment = {
@@ -60,6 +60,16 @@ export const QA = () => {
     }
   };
 
+  const handleLike = (index: number) => {
+    const updatedComments = [...comments];
+    updatedComments[index].likes += 1;
+    setComments(updatedComments);
+  };
+
+  const handleCommentClick = (index: number) => {
+    alert(`Comments clicked for: ${comments[index].title}`);
+  };
+
   const filteredComments = [...comments]
     .filter((comment) =>
       selectedTag && selectedTag !== 'All' ? comment.tags.includes(selectedTag) : true
@@ -78,7 +88,6 @@ export const QA = () => {
         Q&A Comments
       </Typography>
 
-      {/* 篩選區：日期排序 */}
       <FormControl fullWidth sx={{ marginBottom: 2 }}>
         <Select value={filter} onChange={(e) => setFilter(e.target.value)}>
           <MenuItem value="oldToNew">Old to New</MenuItem>
@@ -86,7 +95,6 @@ export const QA = () => {
         </Select>
       </FormControl>
 
-      {/* 篩選區：Tag 按鈕 */}
       <Stack direction="row" spacing={1} sx={{ marginBottom: 2 }}>
         <Chip
           label="All"
@@ -103,7 +111,6 @@ export const QA = () => {
         ))}
       </Stack>
 
-      {/* 評論區 */}
       {filteredComments.map((comment, index) => (
         <Card key={index} sx={{ width: '100%', padding: 2, marginBottom: 2 }}>
           <Typography variant="subtitle2" color="textSecondary">
@@ -127,17 +134,16 @@ export const QA = () => {
             ))}
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
-            <Typography variant="body2" color="textSecondary">
+            <IconButton onClick={() => handleCommentClick(index)}>
               💬 {comment.comments} Comments
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
+            </IconButton>
+            <IconButton onClick={() => handleLike(index)}>
               👍 {comment.likes} Likes
-            </Typography>
+            </IconButton>
           </div>
         </Card>
       ))}
 
-      {/* 新增評論區 */}
       <Card sx={{ width: '100%', padding: 2, marginTop: 2 }}>
         <Typography variant="h6" gutterBottom>
           Add a Comment
