@@ -16,7 +16,7 @@ export const QA = () => {
   const [comments, setComments] = useState<Comment[]>([
     {
       user: 'John Doe',
-      date: '4 Feb 2022',
+      date: '2022-02-04T12:00:00',
       title: 'Do the lawyer-inc ??',
       content: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
       tags: ['Legal', 'Review', 'Feedback'],
@@ -25,7 +25,7 @@ export const QA = () => {
     },
     {
       user: 'Lexter',
-      date: '4 Feb 2022',
+      date: '2022-02-03T12:00:00',
       title: 'Do the lawyer-inc ??',
       content: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
       tags: ['Feedback', 'Client', 'Service'],
@@ -36,10 +36,10 @@ export const QA = () => {
 
   const [newComment, setNewComment] = useState('');
   const [filter, setFilter] = useState('oldToNew');
-  const [selectedTag, setSelectedTag] = useState<string | null>('All'); // 預設顯示所有評論
+  const [selectedTag, setSelectedTag] = useState<string | null>('All');
 
   const handleTagFilter = (tag: string) => {
-    setSelectedTag(tag === selectedTag ? null : tag); // 點擊相同的標籤會取消篩選
+    setSelectedTag(tag === selectedTag ? null : tag);
   };
 
   const handleAddComment = () => {
@@ -48,7 +48,7 @@ export const QA = () => {
         ...comments,
         {
           user: 'Anonymous',
-          date: new Date().toLocaleString(),
+          date: new Date().toISOString(),
           title: 'New Comment',
           content: newComment.trim(),
           tags: ['General'],
@@ -60,12 +60,20 @@ export const QA = () => {
     }
   };
 
-  const filteredComments = comments.filter((comment) =>
-    selectedTag && selectedTag !== 'All' ? comment.tags.includes(selectedTag) : true
-  );
+  const filteredComments = [...comments]
+    .filter((comment) =>
+      selectedTag && selectedTag !== 'All' ? comment.tags.includes(selectedTag) : true
+    )
+    .sort((a, b) => {
+      if (filter === 'newToOld') {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      } else {
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      }
+    });
 
   return (
-    <Page>
+    <Page sx={{ height: '100%', overflowY: 'auto', padding: '20px' }}>
       <Typography variant="h4" gutterBottom>
         Q&A Comments
       </Typography>
@@ -80,13 +88,11 @@ export const QA = () => {
 
       {/* 篩選區：Tag 按鈕 */}
       <Stack direction="row" spacing={1} sx={{ marginBottom: 2 }}>
-        {/* "All" 按鈕 */}
         <Chip
           label="All"
           color={selectedTag === 'All' ? 'primary' : 'default'}
           onClick={() => handleTagFilter('All')}
         />
-        {/* 其他標籤按鈕 */}
         {['Legal', 'Review', 'Feedback', 'Client', 'Service'].map((tag, index) => (
           <Chip
             key={index}
@@ -101,7 +107,7 @@ export const QA = () => {
       {filteredComments.map((comment, index) => (
         <Card key={index} sx={{ width: '100%', padding: 2, marginBottom: 2 }}>
           <Typography variant="subtitle2" color="textSecondary">
-            {comment.user} • {comment.date}
+            {comment.user} • {new Date(comment.date).toLocaleString()}
           </Typography>
           <Typography variant="h6" sx={{ marginTop: 1 }}>
             {comment.title}
@@ -110,13 +116,12 @@ export const QA = () => {
             {comment.content}
           </Typography>
           <div style={{ marginTop: 10 }}>
-            {/* 卡片內的可點擊 Chip */}
             {comment.tags.map((tag, idx) => (
               <Chip
                 key={idx}
                 label={tag}
                 color={selectedTag === tag ? 'primary' : 'default'}
-                onClick={() => handleTagFilter(tag)} // 點擊後篩選
+                onClick={() => handleTagFilter(tag)}
                 sx={{ marginRight: 1 }}
               />
             ))}
