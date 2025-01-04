@@ -120,7 +120,9 @@ export const QA = () => {
             {comment.title}
           </Typography>
           <Typography variant="body1" sx={{ marginTop: 1 }}>
-            {comment.content}
+            {comment.content.length > 100
+              ? `${comment.content.slice(0, 100)}...`
+              : comment.content}
           </Typography>
           <div style={{ marginTop: 10 }}>
             {comment.tags.map((tag, idx) => (
