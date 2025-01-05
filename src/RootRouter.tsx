@@ -10,6 +10,7 @@ import RequireAuth from './components/RequireAuth';
 
 // Page imports
 import { Lawyers } from './pages/Lawyers';
+import Discussion from './pages/Discussion';
 import { UnauthedDashboard } from './pages/UnauthedDashboard';
 import { Example } from './pages/Example';
 import Signin from './pages/Sign-in';
@@ -44,6 +45,7 @@ export const RootRouter = () => {
         />
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/*" element={<Example />} />
+        <Route path="/discussion" element={<Discussion />} />
       </Routes>
     </Grid>
   ) : (
