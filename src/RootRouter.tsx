@@ -12,17 +12,9 @@ import RequireAuth from './components/RequireAuth';
 import { Lawyers } from './pages/Lawyers';
 import { UnauthedDashboard } from './pages/UnauthedDashboard';
 import { Example } from './pages/Example';
-import { AppHeader } from './components/layout/AppHeader';
-import { Link } from './components/Link';
-import { Divider, Typography } from '@mui/material';
-import { Home } from './pages/Home';
-import { Discussion } from './pages/Discussion';
-import { QA } from './pages/Q&A';
-import { Settings } from './pages/Settings';
+import Signin from './pages/Sign-in';
 
-
-const ErrorPage = () => <div>Error Page</div>;
-
+// RootRouter Component
 export const RootRouter = () => {
   const auth = useAuth(); // Access Clerk authentication state
   console.log(auth);
@@ -38,26 +30,20 @@ export const RootRouter = () => {
   return auth.isSignedIn ? (
     // Authenticated user view
     <Grid>
-      <AppHeader>
-        <Flex gap="3" align="end">
-          <Typography variant="h5">Lexter Lens</Typography>
-          <Link to="/home">Home</Link>
-          <Link to="/lawyers">Lawyers</Link>
-          <Link to="/discussion">Discussion</Link>
-          <Link to="/q&a">Q&A</Link>
-          <Link to="/settings">Settings</Link>
-        </Flex>
-        <UserButton />
-      </AppHeader>
+      <ResponsiveAppBar />
       <Divider />
       <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/lawyers" element={<Lawyers />} />
-        <Route path="/discussion" element={<Discussion />} />
-        <Route path="/q&a" element={<QA />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/error" element={<ErrorPage />} />
-        <Route path="*" element={<Navigate to="/error" replace />} />
+        {/* Protected routes requiring authentication */}
+        <Route 
+          path="/lawyers" 
+          element={
+            <RequireAuth>
+              <Lawyers />
+            </RequireAuth>
+          } 
+        />
+        <Route path="/sign-in" element={<Signin />} />
+        <Route path="/*" element={<Example />} />
       </Routes>
     </Grid>
   ) : (
