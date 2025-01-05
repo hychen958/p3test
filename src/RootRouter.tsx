@@ -9,7 +9,7 @@ import { Link } from './components/Link';
 import { Divider, Typography } from '@mui/material';
 import { Home } from './pages/Home';
 import { Discussion } from './pages/Discussion';
-import { QA } from './pages/Q&A';
+import { QnA } from './pages/QnA';
 import { Settings } from './pages/Settings';
 
 const ErrorPage = () => <div>Error Page</div>;
@@ -33,7 +33,7 @@ export const RootRouter = () => {
           <Link to="/home">Home</Link>
           <Link to="/lawyers">Lawyers</Link>
           <Link to="/discussion">Discussion</Link>
-          <Link to="/q&a">Q&A</Link>
+          <Link to="/qna">Q&A</Link>
           <Link to="/settings">Settings</Link>
         </Flex>
         <UserButton />
@@ -43,7 +43,7 @@ export const RootRouter = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/lawyers" element={<Lawyers />} />
         <Route path="/discussion" element={<Discussion />} />
-        <Route path="/q&a" element={<QA />} />
+        <Route path="/qna" element={<QnA />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<Navigate to="/error" replace />} />
