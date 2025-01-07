@@ -13,7 +13,7 @@ import { Lawyers } from './pages/Lawyers';
 import { UnauthedDashboard } from './pages/UnauthedDashboard';
 import { Example } from './pages/Example';
 import Signin from './pages/Sign-in';
-
+import Discussion from './pages/Discussion'; //
 // RootRouter Component
 export const RootRouter = () => {
   const auth = useAuth(); // Access Clerk authentication state
@@ -44,6 +44,7 @@ export const RootRouter = () => {
         />
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/*" element={<Example />} />
+        <Route path="/discussion" element={<Discussion />} />
       </Routes>
     </Grid>
   ) : (
